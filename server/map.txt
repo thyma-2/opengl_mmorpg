@@ -1,0 +1,4 @@
+0 800 none 400.000000 300.000000 -1.000000 0.000000 90 0 73 ship1 none none none none none 0 [] [fruit 1 fruit 1] thyma 3 1 [] 0 0
+3 10 niko 467.000000 869.000000 -1.000000 890.783386 188 0 34 civil niko thyma none none todo 0 [] [epee 1 Protections_de_cuir 1] none 0 0 [] 2 0
+2 10 thyma 610.000000 704.000000 -1.000000 908.785156 49 0 209 civil thyma thyma none none todo 0 [] [epee 1 Protections_de_cuir 1 fruit 1] none 0 0 [] 3 0
+1 999999 none 755.000000 949.000000 -1.000000 908.785156 278 0 34 flag_zone flag_zone thyma none none todo 0 [] [] none 0 0 [] 1 0

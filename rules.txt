@@ -1,0 +1,31 @@
+The game deals with the themes of war, trade and diplomacy.
+But there are also other less important facades: demography, natural resources, technology, religions.
+
+The first thing to know is that it's an online game that works by round and that each round is identical and independent. At the end of each round there is a ranking of all players and it impacts the overall ranking of all rounds.
+
+A round lasts several weeks and requires at least a hundred players (you can join the round along the way).
+For the game to remain playable, a round is only accessible for 2 hours a day, so the server is open 24 hours a day, but the rounds switch every 2 hours.
+
+At the start of a round, the world map contains a lot of natural resources distributed unevenly, some regions have very few trees but a lot of precious metals, others have stone but no animals...
+There are also a few NPCs in primitive villages evenly spread across the map.
+
+When a player starts a game, he will have to customize his character: gender, physical appearance but also certain skill points to invest in advantages: strength, endurance...
+once it's done the character spawn in one of this village on the map with a minimalistic inventory: a bit of food and some clothes.
+
+once your character has appeared, he must complete these objectives in order to be at the top of the rankings: accumulate as many precious objects as possible for as long as possible, have as many characters as possible under his command for as long as possible .
+
+
+Now let's talk about the mechanics of the game:
+firstly there won't be any in-game interface of distinction between players and npc's and behavior is the only way to tell the difference. To have a character under his command, all you have to do is negotiate a "salary" with him and as long as he deems it advantageous to obey your orders, he will be, but you should know that he can betray you at any time. .
+Also there is a limit to the number of characters that can be at your command and to circumvent this limit the characters at your command must also have characters at their command (and so on). This creates a hierarchy but keep in mind that each level of the hierarchy can betray.
+An entire hierarchy can be seen as a people. The one at the top of the hierarchy is the leader.
+
+during the 2 hours of games a good part of the population dies (from hunger, or from war and maybe other reasons but it's already complicated enough as it is)
+
+but at the beginning of each day 2 things happen:
+1) The population (human but also trees, vegetables and animals) grows by 5%
+2) All leaders can invest a technology point and unlock a new technology for their people
+
+Another way to unlock technologies for a people is to trade with other peoples with different technologies. But if many members of a people betray or die then the people can lose technologies.
+
+The management of diplomacy is extremely simple: you click on a character and there are 4 possible choices, friend, enemy, neutral, suzerain. But if you click on enemy all your subordinate will have it as enemy as well.
