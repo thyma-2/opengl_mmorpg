@@ -138,7 +138,7 @@ void key_input_callback(GLFWwindow* window, int button, int other,int action, in
         cam->cameraPos += speed * cam->cameraUp;
 	if (button == GLFW_KEY_LEFT_SHIFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
         cam->cameraPos -= speed * cam->cameraUp;
-	cam->cameraPos.y = land[(int)cam->cameraPos.z][(int)cam->cameraPos.x] + 1;
+	cam->cameraPos.y = land[(int)cam->cameraPos.z][(int)cam->cameraPos.x] + 5;
 }
 
 

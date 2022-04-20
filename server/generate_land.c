@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 	
 	for (int i = 0; i < sy; i+=ecart)
 		for (int j = 0; j < sx; j+=ecart)
-			land[i][j] = rand()%80 - 20;
+			land[i][j] = rand()%20 - 10;
 		
 	for (int i = 0; i < sy; i+=ecart)
 	{
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
             fprintf (altitude, "0\n");
             fprintf (texture, "0\n");
         }
-        else if (land[i][sx] <= 50)
+        else if (land[i][sx] <= 5)
         {
             fprintf (altitude, "%f\n", land[i][sx]);
             fprintf (texture, "1\n");

@@ -35,7 +35,9 @@ void generate_land(void)
 	int id = 0;
 
 	char *hcsv = recv_file();
+	printf ("[%d]\n", strlen(hcsv));
 	char *tcsv = recv_file();
+	printf ("[%d]\n", strlen(tcsv));
 	land = csv_to_array(hcsv);
 	texture = csv_to_array(tcsv);
 	int sy = land.size();
