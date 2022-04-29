@@ -1,3 +1,0 @@
-0,none,none,tree,100,100,10,250,
-0,none,none,tree,100,200,20,250,
-0,none,none,tree,100,300,30,250,

@@ -49,18 +49,3 @@ void init_unit_list(char *str)
 		u->obj = add_object(nullptr, model_indice, x, y, z, 0,0,0);
 	}
 }
-
-char *loadfile(void)
-{
-	FILE *f = fopen("unitlist.txt", "rb");
-    size_t size;
-	fseek(f, 0, SEEK_END);
-	size = ftell(f);
-	fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
-    char *source = (char*)malloc(size);
-    fread(source, size, 1, f);
-	source[size] = 0;
-    fclose(f);
-	return source;
-}
-	

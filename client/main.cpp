@@ -151,7 +151,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 void init_scene()
 {
 	generate_land();
-	char *l = loadfile();
+	char *l = recv_file();
 	init_unit_list(l);
 }
 

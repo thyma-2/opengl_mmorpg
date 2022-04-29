@@ -1,63 +1,6 @@
 #include "main.h"
 
-struct personnages *list = NULL;
-struct personnages *flag = NULL;
-
-static int create_and_bind (char *port)
-{
-    struct addrinfo hints;
-    struct addrinfo *result, *rp;
-    int s, sfd;
-    memset (&hints, 0, sizeof (struct addrinfo));
-    hints.ai_family = AF_UNSPEC;     /* Return IPv4 and IPv6 choices */
-    hints.ai_socktype = SOCK_STREAM; /* We want a TCP socket */
-    hints.ai_flags = AI_PASSIVE;     /* All interfaces */
-
-    s = getaddrinfo (NULL, port, &hints, &result);
-    if (s != 0)
-    {   
-        fprintf (stderr, "getaddrinfo: %s\n", gai_strerror (s));
-        return -1;
-    }
-    for (rp = result; rp != NULL; rp = rp->ai_next)
-    {
-        sfd = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-        if (sfd == -1)
-            continue;
-        s = bind (sfd, rp->ai_addr, rp->ai_addrlen);
-        if (s == 0)
-            break;
-        close (sfd);
-    }
-    if (rp == NULL)
-    {
-        fprintf (stderr, "Could not bind\n");
-        return -1;
-    }
-    freeaddrinfo (result);
-    return sfd;
-}
-
-static int make_socket_non_blocking (int sfd)
-{
-    int flags, s;
-    flags = fcntl (sfd, F_GETFL, 0);
-    if (flags == -1)
-    {
-        perror ("fcntl");
-        return -1;
-    }
-    flags |= O_NONBLOCK;
-    s = fcntl (sfd, F_SETFL, flags);
-    if (s == -1)
-    {
-        perror ("fcntl");
-        return -1;
-    }
-    return 0;
-}
-
-#define MAXEVENTS 64
+extern struct unit *unitlist;
 
 int main(int argc, char **argv)
 {
@@ -78,12 +21,9 @@ int main(int argc, char **argv)
 		printf ("failed to load ground\n");
 		return 1;
 	}
-
-	list = init_map();
-	flag = list;
-	while (strcmp(flag->skin, "flag_zone") != 0)
-		flag = flag->next;
-	list = croissance_pop(list);
+	
+	init_unit_list("sfiles/unitlist.txt");
+	//list = croissance_pop(list);
 
 	char statut[MAXEVENTS + 5] = {0};
 	char c_names[MAXEVENTS + 5][50];
@@ -299,7 +239,6 @@ int main(int argc, char **argv)
 					printf("%d : [%s %s]\n", i, order, order + 20);
                 	send(i, order, size + 20, MSG_NOSIGNAL);
 				}
-           remove_perso();
 		}
     }
 

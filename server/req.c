@@ -36,7 +36,7 @@ char handle_req(int socket)
 				}
 				buffer = pos_buf;
 				buffer[size] = 0;
-				parse_order(buffer);
+				//parse_order(buffer);
 			}
 		}
 	}
