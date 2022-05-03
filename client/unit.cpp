@@ -28,7 +28,7 @@ int char_to_next(char *str, char *to_set, int i)
 void init_unit_list(char *str)
 {
 	int i = 0;
-	char pathmodel[70] = "models/";
+	char pathmodel[70] = "cfiles/";
 	int x,y,z;
 	while (str[i] != 0)
 	{

@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 
 	// NEW!
 	// build and compile the shader programs
-	model_shader = new Shader("3d/shaders/shader.vert", "3d/shaders/color.frag");
+	model_shader = new Shader("cfiles/shaders/shader.vert", "cfiles/shaders/color.frag");
 
 	// NEW!
 	// set up the z-buffer

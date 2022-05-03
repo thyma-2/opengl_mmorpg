@@ -12,5 +12,7 @@
 #include "utile/file.h"
 #include "net/host.h"
 #include "acount.h"
+#include "net/send.h"
+#include "net/recv.h"
 
 #define MAXEVENTS 64

@@ -73,10 +73,10 @@ void generate_land(void)
 	}
 
 
-	unsigned int herbe = load_texture("models/land_textures/herbe.jpg");
-	unsigned int neige = load_texture("models/land_textures/neige.jpg");
-	unsigned int sable = load_texture("models/land_textures/sable.jpg");
-	unsigned int eau = load_texture("models/land_textures/eau.jpg");
+	unsigned int herbe = load_texture("cfiles/land_textures/herbe.jpg");
+	unsigned int neige = load_texture("cfiles/land_textures/neige.jpg");
+	unsigned int sable = load_texture("cfiles/land_textures/sable.jpg");
+	unsigned int eau = load_texture("cfiles/land_textures/eau.jpg");
 	
 	std::vector<float> herbe_geometry {};
 	std::vector<float> neige_geometry {};

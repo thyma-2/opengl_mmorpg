@@ -12,8 +12,8 @@ int main(int argc, char **argv)
 	clock_t time = clock();
     float t = (float)(time / CLOCKS_PER_SEC);
     float t2;
-	char *gheight = load_file("height.csv");
-	char *gtexture = load_file("texture.csv");
+	char *gheight = load_file("sfiles/height.csv");
+	char *gtexture = load_file("sfiles/texture.csv");
 	int sizegheight = strlen(gheight);
 	int sizegtexture = strlen(gtexture);
 	if (gheight == NULL || gtexture == NULL)
@@ -182,28 +182,28 @@ int main(int argc, char **argv)
 								statut[events[i].data.fd] = 1;
 								s = write (events[i].data.fd, "o", 1);
 								cut(buf, ' ');
-								sprintf(c_names[events[i].data.fd], buf);
+								sprintf(c_names[events[i].data.fd],"%s", buf);
 							}
 							else
 								s = write (events[i].data.fd, "n", 1);
                         }
 						else if (statut[events[i].data.fd] == 1)
 						{
-							if (buf[0] == 'p' && have_char(c_names[events[i].data.fd]) == 1)
+							if (buf[0] == 'p' && acount_have_unit(c_names[events[i].data.fd]) == 1)
 		                    {
 								s = write (events[i].data.fd, "o", 1);
 		                        send_file(events[i].data.fd, gheight, sizegheight);
 								send_file(events[i].data.fd, gtexture, sizegtexture);
-		                        send_map(events[i].data.fd);
+		                        send_unit_list(events[i].data.fd); // unitlist
 								statut[events[i].data.fd] = 2;
                     		}
-							else if (buf[0] == 'c' && have_char(c_names[events[i].data.fd]) != 1)
+							else if (buf[0] == 'c' && acount_have_unit(c_names[events[i].data.fd]) != 1)
 							{
 								s = write (events[i].data.fd, "o", 1);
-								create_new_char(c_names[events[i].data.fd]);
+								create_new_char(c_names[events[i].data.fd], c_names[events[i].data.fd]);
 		                        send_file(events[i].data.fd, gheight, sizegheight);
 								send_file(events[i].data.fd, gtexture, sizegtexture);
-		                        send_map(events[i].data.fd);
+		                        send_unit_list(events[i].data.fd);
 								statut[events[i].data.fd] = 2;
 							}
 							else

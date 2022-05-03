@@ -1,6 +1,6 @@
 #include "host.h"
 
-static int make_socket_non_blocking (int sfd)
+int make_socket_non_blocking (int sfd)
 {
     int flags, s; 
     flags = fcntl (sfd, F_GETFL, 0);
@@ -19,7 +19,7 @@ static int make_socket_non_blocking (int sfd)
     return 0;
 }
 
-static int create_and_bind (char *port)
+int create_and_bind (char *port)
 {
     struct addrinfo hints;
     struct addrinfo *result, *rp;

@@ -2,27 +2,66 @@
 
 struct unit *unitlist = NULL;
 
-init_unit_list(char *path)
+int find_smalest_available_id(int from)
 {
-	char *str = loadfile(path);
+    for (struct unit *u = unitlist; u != NULL; u = u->next)
+    {
+        if (u->id == from)
+            return find_smalest_available_id(from + 1);
+    }
+    return from;
+}
+
+
+
+char acount_have_unit(char *name)
+{
+	for (struct unit *u = unitlist; u != NULL; u=u->next)
+	{
+		if (strcmp(u->acount, name) == 0)
+			return 1;
+	}
+	return 0;
+}
+
+void init_unit_list(char *path)
+{
+	char *str = load_file(path);
 	int i = 0;
 	while (str[i] != 0)
 	{
-		unit *u = malloc(sizeof(struct unit));
-		//unit_list.push_back(u);
-		i = int_to_next(str, &u.id, i, ',');
-		i = char_to_next(str, u.acount, i, ',');
-		i = char_to_next(str, u.name, i, ',');
-		i = char_to_next(str, u.utype, i, ',');
-		i = int_to_next(str, &u.pv, i, ',');
-		i = float_to_next(str, &u.x, i, ',');
-		i = float_to_next(str, &u.y, i, ',');
-		i = float_to_next(str, &u.z, i, ',');
-		i = float_to_next(str, &u.rx, i, ',');
-        i = float_to_next(str, &u.ry, i, ',');
-        i = float_to_next(str, &u.rz, i, ',');
+		struct unit *u = malloc(sizeof(struct unit));
+		u->next = unitlist;
+		unitlist = u;
+		sscanf (str, "%d,%d,%s,%s,%s,%f,%f,%f,%f,%f,%f", &u->id, &u->pv, u->acount, u->name, u->utype, &u->x, &u->y, &u->z, &u->rx, &u->ry, &u->rz);
+		while (str[i] != '\n')
+		{
+			if (str[i] == 0)
+			{
+				return;
+				free(str);
+			}
+			i++;
+		}
 		i++;
 	}
 	free(str);
-	return u;
+}
+
+void create_new_char(char *name, char *acount)
+{
+	struct unit *u = malloc(sizeof(struct unit));
+    u->next = unitlist;
+    unitlist = u;
+	strcpy(u->acount, acount);
+	strcpy(u->name, name);
+	u->x = 0;
+	u->y = 0;
+	u->z = 0;
+	u->rx = 0;
+	u->ry = 0;
+	u->rz = 0;
+	strcpy(u->utype, "man");
+	u->pv = 10;
+	u->id = find_smalest_available_id(0);
 }

@@ -1,6 +1,8 @@
+#pragma once
+
 #include <stdlib.h>
-#include "utile/string.h"
 #include "utile/file.h"
+#include <string.h>
 
 struct unit
 {
@@ -12,4 +14,6 @@ struct unit
 	struct unit* next;
 };
 
-init_unit_list(char *path);
+char acount_have_unit(char *name);
+void init_unit_list(char *path);
+void create_new_char(char *name, char *acount);

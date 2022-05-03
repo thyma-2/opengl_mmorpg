@@ -1,3 +1,5 @@
+#include "file.h"
+
 char *load_file(char *path)
 {
 	FILE *f = fopen(path, "rb");
