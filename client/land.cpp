@@ -28,16 +28,12 @@ std::vector<std::vector<float>> csv_to_array(char *csv)
 }
 
 
-void generate_land(void)
+void generate_land(char *hcsv, char *tcsv)
 {
 	add_object(nullptr, -1, 0, 0, 0, 0,0,0);
 	float s = 0.5;
 	int id = 0;
 
-	char *hcsv = recv_file();
-	printf ("[%d]\n", strlen(hcsv));
-	char *tcsv = recv_file();
-	printf ("[%d]\n", strlen(tcsv));
 	land = csv_to_array(hcsv);
 	texture = csv_to_array(tcsv);
 	int sy = land.size();

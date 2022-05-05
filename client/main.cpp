@@ -150,8 +150,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void init_scene()
 {
-	generate_land();
+	char *hcsv = recv_file();
+    char *tcsv = recv_file();
 	char *l = recv_file();
+	printf ("[%s]\n", l);
+	generate_land(hcsv, tcsv);
 	init_unit_list(l);
 }
 
@@ -169,10 +172,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 	lastX = xpos;
 	lastY = ypos;
-    float sensitivity = 0.1f; // change this value to your liking
+    float sensitivity = 0.2f; // change this value to your liking
 
 
-	if (xoffset*xoffset < 1000 and yoffset * yoffset < 1000)
+	if (xoffset*xoffset < 2000 and yoffset * yoffset < 2000)
 	{	
 	    xoffset *= sensitivity;
 	    yoffset *= sensitivity;

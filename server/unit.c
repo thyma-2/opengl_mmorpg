@@ -33,7 +33,7 @@ void init_unit_list(char *path)
 		struct unit *u = malloc(sizeof(struct unit));
 		u->next = unitlist;
 		unitlist = u;
-		sscanf (str, "%d,%d,%s,%s,%s,%f,%f,%f,%f,%f,%f", &u->id, &u->pv, u->acount, u->name, u->utype, &u->x, &u->y, &u->z, &u->rx, &u->ry, &u->rz);
+		sscanf (str + i, "%d %d %s %s %s %f %f %f %f %f %f", &u->id, &u->pv, u->acount, u->name, u->utype, &u->x, &u->y, &u->z, &u->rx, &u->ry, &u->rz);
 		while (str[i] != '\n')
 		{
 			if (str[i] == 0)

@@ -4,7 +4,7 @@ sfiles=server/utile/file.c server/net/host.c server/unit.c server/acount.c serve
 lfiles=
 
 g:
-	g++ client/main.cpp $(gfiles) -o empireExpense $(glink)
+	g++ -g client/main.cpp $(gfiles) -o empireExpense $(glink)
 
 s:
 	gcc -g server/main.c $(sfiles) -o serv

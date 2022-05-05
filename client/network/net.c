@@ -31,7 +31,6 @@ char *recv_file()
 {
     char *str = (char*)calloc(1, 9);
     recv(netfd, str, 8, 0);
-	printf ("%s\n", str);
     int nb_char = atoi(str);
     str = (char*)realloc(str, nb_char + 1);
 	str[0] = 0;

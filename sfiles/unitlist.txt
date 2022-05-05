@@ -1,3 +1,4 @@
-0,none,none,tree,100,100,10,250
-0,none,none,tree,100,200,20,250
-0,none,none,tree,100,300,30,250
+0 100 none none tree 100 10 50
+0 100 none none tree 120 10 50
+0 100 none none tree 130 10 50
+0 100 thyma thyma tree 100 100 100

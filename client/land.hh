@@ -6,7 +6,7 @@
 #include "3d/object.hh"
 #include "network/net.h"
 
-void generate_land(void);
+void generate_land(char *hcsv, char *tcsv);
 
 struct surface
 {
