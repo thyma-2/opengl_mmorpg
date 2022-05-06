@@ -2,12 +2,14 @@
 
 struct unit
 {
+	/////////////// online variable
 	int id, pv;
 	char acount[50];
 	char name[50];
 	char utype[20];
 	struct object* obj;
+	/////////////// local variable
 };
 
-void init_unit_list(char *str);
+struct unit *init_unit_list(char *str, char *name);
 char *loadfile(void);

@@ -2,6 +2,7 @@
 
 struct camera *cam = (struct camera *)malloc(sizeof(struct camera));
 extern std::vector<object> objects;
+extern char order[9999];
 Shader *model_shader;
 GLFWwindow* window;
 
@@ -9,11 +10,12 @@ extern std::vector<std::vector<float>> land;
 extern std::vector<std::vector<float>> texture;
 
 bool firstMouse = true;
-float yaw   = 90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-float pitch =  0.0f;
 float lastX =  800.0f / 2.0;
 float lastY =  600.0 / 2.0;
 float fov   =  45.0f;
+
+
+struct unit *me = NULL;
 
 int main(int argc, char **argv)
 {
@@ -92,7 +94,7 @@ int main(int argc, char **argv)
         return -4;
     }
 
-    init_scene();
+    init_scene(argv[3]);
 	// render loop
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -112,6 +114,11 @@ int main(int argc, char **argv)
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		if (order[0] != 0)
+		{
+			send(netfd, order, strlen(order), MSG_NOSIGNAL);
+			order[0] = 0;
+		}
 	}
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
@@ -127,18 +134,14 @@ void button_input_callback(GLFWwindow* window, int button, int action, int mods)
 void key_input_callback(GLFWwindow* window, int button, int other,int action, int mods){
 	float speed = 0.5;
 	if (button == GLFW_KEY_LEFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
-		cam->cameraPos -= speed * glm::normalize(glm::cross(cam->cameraFront, cam->cameraUp));
+		sprintf(order + strlen(order), "%d 07 +%f %d 05 -%f ", me->id, speed * sin(me->obj->ry), me->id, speed * cos(me->obj->ry));
 	if (button == GLFW_KEY_RIGHT && (action == GLFW_REPEAT || action == GLFW_PRESS))
-		cam->cameraPos += speed * glm::normalize(glm::cross(cam->cameraFront, cam->cameraUp));
+		sprintf(order + strlen(order), "%d 07 -%f %d 05 +%f ", me->id, speed * sin(me->obj->ry), me->id, speed * cos(me->obj->ry));
 	if (button == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
-		cam->cameraPos += speed * cam->cameraFront;
+		sprintf(order + strlen(order), "%d 07 -%f %d 05 +%f ", me->id, speed * cos(me->obj->ry), me->id, speed * sin(me->obj->ry));
 	if (button == GLFW_KEY_DOWN && (action == GLFW_REPEAT ||  action == GLFW_PRESS))
-		cam->cameraPos -= speed * cam->cameraFront;
-	if (button == GLFW_KEY_SPACE && (action == GLFW_REPEAT || action == GLFW_PRESS))
-        cam->cameraPos += speed * cam->cameraUp;
-	if (button == GLFW_KEY_LEFT_SHIFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
-        cam->cameraPos -= speed * cam->cameraUp;
-	cam->cameraPos.y = land[(int)cam->cameraPos.z][(int)cam->cameraPos.x] + 5;
+		sprintf(order + strlen(order), "%d 07 +%f %d 05 -%f ", me->id, speed * cos(me->obj->ry), me->id, speed * sin(me->obj->ry));
+	sprintf(order + strlen(order), "%d 06 %f ", me->id, land[(int)cam->cameraPos.z][(int)cam->cameraPos.x] + 5);
 }
 
 
@@ -148,14 +151,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void init_scene()
+void init_scene(char *name)
 {
 	char *hcsv = recv_file();
     char *tcsv = recv_file();
 	char *l = recv_file();
-	printf ("[%s]\n", l);
 	generate_land(hcsv, tcsv);
-	init_unit_list(l);
+	me = init_unit_list(l, name);
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -180,20 +182,20 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	    xoffset *= sensitivity;
 	    yoffset *= sensitivity;
 
-	    yaw += xoffset;
-	    pitch += yoffset;
+	    me->obj->ry += xoffset;
+	    me->obj->rz += yoffset;
 	}
 
     // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (pitch > 89.0f)
-        pitch = 89.0f;
-    if (pitch < -89.0f)
-        pitch = -89.0f;
+    if (me->obj->rz > 89.0f)
+        me->obj->rz = 89.0f;
+    if (me->obj->rz < -89.0f)
+        me->obj->rz = -89.0f;
 
     glm::vec3 front;
-    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front.y = sin(glm::radians(pitch));
-    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front.x = cos(glm::radians(me->obj->ry)) * cos(glm::radians(me->obj->rz));
+    front.y = sin(glm::radians(me->obj->rz));
+    front.z = sin(glm::radians(me->obj->ry)) * cos(glm::radians(me->obj->rz));
     cam->cameraFront = glm::normalize(front);
 }
 

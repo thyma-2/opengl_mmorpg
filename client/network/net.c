@@ -1,6 +1,7 @@
 #include "net.h"
 
 int netfd;
+char order[9999] = {0};
 
 void try_connect(char *ip, char *port) // Connecter
 {
