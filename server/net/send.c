@@ -16,9 +16,7 @@ void send_unit_list(int socket)
 	char order[100020] = {0};
 	char *ordre = &order[8];
     for (struct unit *u = unitlist; u != NULL; u = u->next)
-	{
 		sprintf (ordre + strlen(ordre), "%d %d %s %s %s %f %f %f %f %f %f\n", u->id, u->pv, u->acount, u->name, u->utype, u->x, u->y, u->z, u->rx, u->ry, u->rz);
-	}
 	int s = strlen(ordre);
 	if (s > 0)
 	{
@@ -29,5 +27,18 @@ void send_unit_list(int socket)
 
 int generate_order(char *order)
 {
-	return 0;
+	char *to_write = &order[8];
+	to_write[0] = 0;
+	for (struct unit *u = unitlist; u != NULL; u = u->next)
+	{
+		if (u->has_changed == 1)
+		{
+		
+			sprintf (to_write + strlen(to_write), "%d %d %s %s %s %f %f %f %f %f %f\n", u->id, u->pv, u->acount, u->name, u->utype, u->x, u->y, u->z, u->rx, u->ry, u->rz);
+			u->has_changed = 0;
+		}	
+	}
+	int s = strlen(to_write);
+	sprintf (order, "%d", s);
+	return s;
 }

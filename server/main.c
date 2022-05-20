@@ -229,16 +229,13 @@ int main(int argc, char **argv)
         }
 		time = clock();
         t2 = (float)(time / (CLOCKS_PER_SEC / 60));
-        if (t2 - t >= 1)
+        if (t2 - t >= 4)
         {
         	t = t2;
             int size = generate_order(order);
             for (int i = 4; i < MAXEVENTS + 5;i++)
             	if (statut[i] == 2)
-				{
-					printf("%d : [%s %s]\n", i, order, order + 20);
-                	send(i, order, size + 20, MSG_NOSIGNAL);
-				}
+                	send(i, order, size + 8, MSG_NOSIGNAL);
 		}
     }
 
@@ -248,138 +245,3 @@ int main(int argc, char **argv)
 
     return EXIT_SUCCESS;
 }
-           
-
-
-				/*
-		int new = accept(server_socket, NULL, NULL);
-		if (new >= 0)
-		{
-			fcntl(new, F_SETFL, O_NONBLOCK);
-			unlog_client = append_linked(unlog_client, new, NULL);
-		}
-		next = unlog_client;
-		client = unlog_client;
-		while (client != NULL)
-		{
-			next = next->next;
-			if (recv(client->socket, &buffer,101, 0) > 0)
-			{
-				client->afk_timmer = 0;
-				if (open_acount(buffer) == 1)
-				{
-					boolrep = 'o';
-					send(client->socket, &boolrep, 1, MSG_NOSIGNAL);
-					cut(buffer, ' ');
-					logged_client = append_linked(logged_client, client->socket, buffer);
-					unlog_client = remove_linked(unlog_client, client->socket);
-				}
-				else
-				{
-					boolrep = 'n';
-					send(client->socket, &boolrep, 1, MSG_NOSIGNAL);
-				}
-			}
-			else
-			{
-				client->afk_timmer += 1;
-				if (client->afk_timmer > 5000000)
-				{
-					close(client->socket);
-					unlog_client = remove_linked(unlog_client, client->socket);
-				}
-			}
-			client = next;
-		}
-		next = logged_client;
-		client = logged_client;
-		while (client != NULL)
-		{
-			next = next->next;
-			if (recv(client->socket, &buffer, 102, 0) > 0)
-			{
-				client->afk_timmer = 0;
-				if (buffer[0] == 'p')
-				{
-					if (have_char(client->name) == 1)
-					{
-						boolrep = 'o';
-						send(client->socket, &boolrep, 1, MSG_NOSIGNAL);
-						send_background(client->socket, ground, size_ground);
-						send_map(client->socket);
-						ingame_client = append_linked(ingame_client, client->socket, client->name);
-						logged_client = remove_linked(logged_client, client->socket);
-					}
-					else
-					{
-						boolrep = 'n';
-						send(client->socket, &boolrep, 1,MSG_NOSIGNAL);
-					}
-				}
-				if (buffer[0] == 'c')
-				{
-					if (have_char(client->name) == 1)
-					{
-						boolrep = 'n';
-						send(client->socket, &boolrep, 1,MSG_NOSIGNAL);
-					}
-					else
-					{
-						create_new_char(client->name);
-						boolrep = 'o';
-						send(client->socket, &boolrep, 1,MSG_NOSIGNAL);
-						send_background(client->socket, ground, size_ground);
-						send_map(client->socket);
-						ingame_client = append_linked(ingame_client, client->socket, client->name);
-						logged_client = remove_linked(logged_client, client->socket);
-					}
-				}
-			}
-			else
-			{
-				client->afk_timmer += 1;
-				if (client->afk_timmer > 5000000)
-				{
-					close(client->socket);
-					logged_client = remove_linked(logged_client, client->socket);
-				}
-			}
-			client = next;
-		}
-		next = ingame_client;
-		client = ingame_client;
-		while (client != NULL)
-		{
-			next = next->next;
-			int afk = handle_req(client->socket);
-			if (afk == 1)
-				client->afk_timmer += 1;
-			else
-				client->afk_timmer = 0;
-			if (client->afk_timmer > 50000000)
-			{
-				close(client->socket);
-				ingame_client = remove_linked(ingame_client, client->socket);
-			}
-			client = next;
-		}
-		time = clock();
-		t2 = (float)(time / (CLOCKS_PER_SEC / 60));
-		if (t2 - t >= 1)
-		{
-			t = t2;
-			int size = generate_order(order);
-			for (struct linked_client *client = ingame_client; client != NULL; client=client->next)
-				send(client->socket, order, size + 20, MSG_NOSIGNAL);
-			remove_perso();
-		}
-		save++;
-		if (save > 10000000)
-		{
-			printf("\nSAVE\n");
-			save = 0;
-			save_map();
-		}
-	}
-	return 0;
-}*/

@@ -1,7 +1,7 @@
 #include "main.hh"
 
 struct camera *cam = (struct camera *)malloc(sizeof(struct camera));
-extern std::vector<object> objects;
+extern std::vector<struct object*> objects;
 extern char order[9999];
 Shader *model_shader;
 GLFWwindow* window;
@@ -96,7 +96,8 @@ int main(int argc, char **argv)
 
     init_scene(argv[3]);
 	// render loop
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(window))
+	{
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -104,7 +105,6 @@ int main(int argc, char **argv)
 		glUseProgram(model_shader->ID);
 		glm::mat4 projection = glm::perspective(glm::radians(cam->fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
 		model_shader->setMat4("projection", projection);
-
 		glm::mat4 view = glm::lookAt(cam->cameraPos, cam->cameraPos + cam->cameraFront, cam->cameraUp);
 		model_shader->setMat4("view", view);
 		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
@@ -119,6 +119,10 @@ int main(int argc, char **argv)
 			send(netfd, order, strlen(order), MSG_NOSIGNAL);
 			order[0] = 0;
 		}
+		char *l = recv_file();
+		update_unit_list(l);
+		cam->cameraPos=me->obj->position;
+		free(l);
 	}
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
@@ -133,15 +137,15 @@ void button_input_callback(GLFWwindow* window, int button, int action, int mods)
 // glfw: called whenever a keyboard key is pressed
 void key_input_callback(GLFWwindow* window, int button, int other,int action, int mods){
 	float speed = 0.5;
-	if (button == GLFW_KEY_LEFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
-		sprintf(order + strlen(order), "%d 07 +%f %d 05 -%f ", me->id, speed * sin(me->obj->ry), me->id, speed * cos(me->obj->ry));
-	if (button == GLFW_KEY_RIGHT && (action == GLFW_REPEAT || action == GLFW_PRESS))
-		sprintf(order + strlen(order), "%d 07 -%f %d 05 +%f ", me->id, speed * sin(me->obj->ry), me->id, speed * cos(me->obj->ry));
-	if (button == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
-		sprintf(order + strlen(order), "%d 07 -%f %d 05 +%f ", me->id, speed * cos(me->obj->ry), me->id, speed * sin(me->obj->ry));
 	if (button == GLFW_KEY_DOWN && (action == GLFW_REPEAT ||  action == GLFW_PRESS))
-		sprintf(order + strlen(order), "%d 07 +%f %d 05 -%f ", me->id, speed * cos(me->obj->ry), me->id, speed * sin(me->obj->ry));
-	sprintf(order + strlen(order), "%d 06 %f ", me->id, land[(int)cam->cameraPos.z][(int)cam->cameraPos.x] + 5);
+		sprintf(order + strlen(order), "%d 06 -%f %d 04 -%f ", me->id, speed * sin(cam->ry / 57.3), me->id, speed * cos(cam->ry / 57.3));
+	if (button == GLFW_KEY_LEFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		sprintf(order + strlen(order), "%d 06 -%f %d 04 +%f ", me->id, speed * cos(cam->ry / 57.3), me->id, speed * sin(cam->ry / 57.3));
+	if (button == GLFW_KEY_RIGHT && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		sprintf(order + strlen(order), "%d 06 +%f %d 04 -%f ", me->id, speed * cos(cam->ry / 57.3), me->id, speed * sin(cam->ry / 57.3));
+	if (button == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
+		sprintf(order + strlen(order), "%d 06 +%f %d 04 +%f ", me->id, speed * sin(cam->ry / 57.3), me->id, speed * cos(cam->ry / 57.3));
+	sprintf(order + strlen(order), "%d 05 %f %d 08 %f %d 09 %f ", me->id, land[(int)cam->cameraPos.z][(int)cam->cameraPos.x] + 5, me->id, cam->ry, me->id, cam->rz);
 }
 
 
@@ -158,6 +162,9 @@ void init_scene(char *name)
 	char *l = recv_file();
 	generate_land(hcsv, tcsv);
 	me = init_unit_list(l, name);
+	free(hcsv);
+	free(tcsv);
+	free(l);
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -182,21 +189,24 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	    xoffset *= sensitivity;
 	    yoffset *= sensitivity;
 
-	    me->obj->ry += xoffset;
-	    me->obj->rz += yoffset;
+	    cam->ry += xoffset;
+	    cam->rz += yoffset;
 	}
 
-    // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (me->obj->rz > 89.0f)
-        me->obj->rz = 89.0f;
-    if (me->obj->rz < -89.0f)
-        me->obj->rz = -89.0f;
+	
 
-    glm::vec3 front;
-    front.x = cos(glm::radians(me->obj->ry)) * cos(glm::radians(me->obj->rz));
-    front.y = sin(glm::radians(me->obj->rz));
-    front.z = sin(glm::radians(me->obj->ry)) * cos(glm::radians(me->obj->rz));
+    // make sure that when pitch is out of bounds, screen doesn't get flipped
+    if (cam->rz > 89.0f)
+        cam->rz = 89.0f;
+    if (cam->rz < -89.0f)
+        cam->rz = -89.0f;
+
+	glm::vec3 front;
+    front.x = cos(glm::radians(cam->ry)) * cos(glm::radians(cam->rz));
+    front.y = sin(glm::radians(cam->rz));
+    front.z = sin(glm::radians(cam->ry)) * cos(glm::radians(cam->rz));
     cam->cameraFront = glm::normalize(front);
+	
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)

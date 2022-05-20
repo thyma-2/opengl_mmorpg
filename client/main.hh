@@ -24,5 +24,6 @@ void init_scene(char *name);
 
 struct camera {
 	float fov;
+	float ry,rz;
 	glm::vec3 cameraPos, cameraFront, cameraUp;
 };

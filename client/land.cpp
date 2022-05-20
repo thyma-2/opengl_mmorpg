@@ -1,6 +1,6 @@
 #include "land.hh"
 
-extern std::vector<object> objects;
+extern std::vector<struct object*> objects;
 extern std::vector<struct model*> models;
 extern Shader *model_shader;
 
@@ -30,7 +30,7 @@ std::vector<std::vector<float>> csv_to_array(char *csv)
 
 void generate_land(char *hcsv, char *tcsv)
 {
-	add_object(nullptr, -1, 0, 0, 0, 0,0,0);
+	struct object *landobj = add_object(NULL, -1, 0, 0, 0, 0,0,0);
 	float s = 0.5;
 	int id = 0;
 
@@ -169,7 +169,7 @@ void generate_land(char *hcsv, char *tcsv)
     model->VAO = VAO;
     model->vertexCount = herbe_geometry.size()/5;
     models.push_back(model);
-    add_object(&objects[0], models.size()-1, 0, 0, 0, 0, 0, 0);
+    add_object(landobj, models.size()-1, 0, 0, 0, 0, 0, 0);
 	//
 	model = (struct model*)malloc(sizeof(struct model*));
     model->texture = eau;
@@ -191,7 +191,7 @@ void generate_land(char *hcsv, char *tcsv)
     model->VAO = VAO;
     model->vertexCount = eau_geometry.size()/5;
     models.push_back(model);
-    add_object(&objects[0], models.size()-1, 0, 0, 0, 0, 0, 0);
+    add_object(landobj, models.size()-1, 0, 0, 0, 0, 0, 0);
 	//
 	model = (struct model*)malloc(sizeof(struct model*));
     model->texture = sable;
@@ -213,7 +213,7 @@ void generate_land(char *hcsv, char *tcsv)
     model->VAO = VAO;
     model->vertexCount = sable_geometry.size()/5;
     models.push_back(model);
-    add_object(&objects[0], models.size()-1, 0, 0, 0, 0, 0, 0);
+    add_object(landobj, models.size()-1, 0, 0, 0, 0, 0, 0);
 	//
 	model = (struct model*)malloc(sizeof(struct model*));
     model->texture = neige;
@@ -235,5 +235,5 @@ void generate_land(char *hcsv, char *tcsv)
     model->VAO = VAO;
     model->vertexCount = neige_geometry.size()/5;
     models.push_back(model);
-    add_object(&objects[0], models.size()-1, 0, 0, 0, 0, 0, 0);
+    add_object(landobj, models.size()-1, 0, 0, 0, 0, 0, 0);
 }

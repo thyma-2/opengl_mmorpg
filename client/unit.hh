@@ -12,4 +12,4 @@ struct unit
 };
 
 struct unit *init_unit_list(char *str, char *name);
-char *loadfile(void);
+void update_unit_list(char *str);

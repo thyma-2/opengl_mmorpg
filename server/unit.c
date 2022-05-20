@@ -65,3 +65,11 @@ void create_new_char(char *name, char *acount)
 	u->pv = 10;
 	u->id = find_smalest_available_id(0);
 }
+
+struct unit *get_ptr_from_id(int id)
+{
+	for (struct unit *u = unitlist; u != NULL; u = u->next)
+		if (u->id == id)
+			return u;
+	return NULL;
+}

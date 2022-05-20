@@ -20,3 +20,4 @@ struct unit
 char acount_have_unit(char *name);
 void init_unit_list(char *path);
 void create_new_char(char *name, char *acount);
+struct unit *get_ptr_from_id(int id);
