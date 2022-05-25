@@ -7,7 +7,14 @@ void send_file(int socket,char *map, size_t size_map)
     char *str_nb = calloc(sizeof(char), 9);
     sprintf(str_nb, "%ld", size_map);
     send(socket, str_nb, 8, MSG_NOSIGNAL);
-    send(socket, map, size_map, MSG_NOSIGNAL);
+	int sended = 0;
+	int count;
+	while (sended < size_map)
+	{
+	    count = send(socket, map + sended, size_map - sended, MSG_NOSIGNAL);
+		if (count > 0)
+			sended += count;
+	}
     free(str_nb);
 }
 

@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 	sfd = create_and_bind (argv[1]);
     if (sfd == -1)
         abort ();
-    s = make_socket_non_blocking (sfd);
+	s = make_socket_non_blocking (sfd);
     if (s == -1)
         abort ();
     s = listen (sfd, SOMAXCONN);
