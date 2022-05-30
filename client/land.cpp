@@ -38,7 +38,7 @@ void generate_land(char *hcsv, char *tcsv)
 	texture = csv_to_array(tcsv);
 	int sy = land.size();
 	int sx = land[0].size();
-	struct surface **land2 = (struct surface**)malloc(sy*sizeof(struct surface*));
+	struct surface **land2 = (struct surface**)malloc(sy*sizeof(void *));
 	for (int i = 0; i < sy; i++)
 		land2[i] = (struct surface*)malloc(sx*sizeof(struct surface));
 	
@@ -69,10 +69,10 @@ void generate_land(char *hcsv, char *tcsv)
 	}
 
 
-	unsigned int herbe = load_texture("cfiles/land_textures/herbe.jpg");
-	unsigned int neige = load_texture("cfiles/land_textures/neige.jpg");
-	unsigned int sable = load_texture("cfiles/land_textures/sable.jpg");
-	unsigned int eau = load_texture("cfiles/land_textures/eau.jpg");
+	unsigned int herbe = load_texture((char*)"cfiles/land_textures/herbe.jpg");
+	unsigned int neige = load_texture((char*)"cfiles/land_textures/neige.jpg");
+	unsigned int sable = load_texture((char*)"cfiles/land_textures/sable.jpg");
+	unsigned int eau = load_texture((char*)"cfiles/land_textures/eau.jpg");
 	
 	std::vector<float> herbe_geometry {};
 	std::vector<float> neige_geometry {};

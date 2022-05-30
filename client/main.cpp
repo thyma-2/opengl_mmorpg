@@ -122,6 +122,7 @@ int main(int argc, char **argv)
 		char *l = recv_file();
 		update_unit_list(l);
 		cam->cameraPos=me->obj->position;
+		cam->cameraPos[1] += 1;
 		free(l);
 	}
 

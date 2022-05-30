@@ -58,10 +58,10 @@ struct unit *init_unit_list(char *str, char *name)
 		if (strcmp(u->acount, name) == 0)
 		{
             to_ret = u;
-			model_indice = load_model_from_obj(pathmodel, 1);
+			model_indice = load_model_from_obj(pathmodel, 0);
 		}
 		else
-			model_indice = load_model_from_obj(pathmodel, 25);
+			model_indice = load_model_from_obj(pathmodel, 1);
 		u->obj = add_object(nullptr, model_indice, x, y, z, rx,ry,rz);
 	}
 	return to_ret;

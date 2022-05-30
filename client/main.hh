@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <glad/glad.h>
+#include "3d/glad/glad.h"
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <math.h>
