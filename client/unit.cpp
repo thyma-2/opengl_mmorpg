@@ -39,7 +39,10 @@ struct unit *init_unit_list(char *str, char *name)
 	while (str[i] != 0)
 	{
 		struct unit *u = (struct unit*)malloc(sizeof(struct unit));
-		sscanf(str + i, "%d %d %s %s %s %f %f %f %f %f %f", &u->id, &u->pv, u->acount, u->name, u->utype, &x, &y, &z, &rx, &ry, &rz);
+		sscanf(str + i, "%d %d %s %s %s %s %f %f %f %f %f %f", &u->id, &u->pv, u->acount, u->name, u->utype, u->bossname, &x, &y, &z, &rx, &ry, &rz);
+		u->lastx = x;
+		u->lasty = y;
+		u->lastz = z;
 		insert_into_unitlist(u);
 		while (str[i] != '\n')
 		{
@@ -73,7 +76,10 @@ void update_unit_list(char *str)
     while (str[i] != 0)
     {
 		int id = atoi(str + i);
-        sscanf(str + i, "%d %d %s %s %s %f %f %f %f %f %f", &unit_list[id]->id, &unit_list[id]->pv, unit_list[id]->acount, unit_list[id]->name, unit_list[id]->utype, &unit_list[id]->obj->position[0], &unit_list[id]->obj->position[1], &unit_list[id]->obj->position[2], &unit_list[id]->obj->rx, &unit_list[id]->obj->ry, &unit_list[id]->obj->rz);
+		unit_list[id]->lastx = unit_list[id]->obj->position[0];
+		unit_list[id]->lasty = unit_list[id]->obj->position[1];
+		unit_list[id]->lastz = unit_list[id]->obj->position[2];
+        sscanf(str + i, "%d %d %s %s %s %s %f %f %f %f %f %f", &unit_list[id]->id, &unit_list[id]->pv, unit_list[id]->acount, unit_list[id]->name, unit_list[id]->utype, unit_list[id]->bossname, &unit_list[id]->obj->position[0], &unit_list[id]->obj->position[1], &unit_list[id]->obj->position[2], &unit_list[id]->obj->rx, &unit_list[id]->obj->ry, &unit_list[id]->obj->rz);
         while (str[i] != '\n')
             i++;
         i++;

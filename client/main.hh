@@ -8,9 +8,11 @@
 #include "3d/shader.hh"
 #include <glm/gtc/type_ptr.hpp>
 #include "3d/object.hh"
-#include "land.hh"
+#include "land/load.hh"
 #include "unit.hh"
 #include "network/net.h"
+#include "ai/man.hh"
+#include "collision.hh"
 
 const unsigned int SCR_WIDTH = 1200;
 const unsigned int SCR_HEIGHT = 800;

@@ -11,6 +11,7 @@ struct unit
 	char acount[50];
 	char name[50];
 	char utype[20];
+	char bossname[50];
 	float x,y,z,rx,ry,rz;
 	///////////// local variables
 	struct unit* next;

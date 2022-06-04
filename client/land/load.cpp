@@ -1,4 +1,4 @@
-#include "land.hh"
+#include "load.hh"
 
 extern std::vector<struct object*> objects;
 extern std::vector<struct model*> models;

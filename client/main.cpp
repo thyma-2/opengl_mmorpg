@@ -8,6 +8,7 @@ GLFWwindow* window;
 
 extern std::vector<std::vector<float>> land;
 extern std::vector<std::vector<float>> texture;
+extern std::vector<struct unit*> unit_list;
 
 bool firstMouse = true;
 float lastX =  800.0f / 2.0;
@@ -124,6 +125,14 @@ int main(int argc, char **argv)
 		cam->cameraPos=me->obj->position;
 		cam->cameraPos[1] += 1;
 		free(l);
+
+		for (int i = 0; i < unit_list.size(); i++)
+		{
+			if (strcmp(unit_list[i]->acount, "none") == 0 && strcmp(unit_list[i]->utype, "man") == 0)
+				decision_man(unit_list[i]);
+		}
+		collision();
+		
 	}
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
@@ -146,7 +155,6 @@ void key_input_callback(GLFWwindow* window, int button, int other,int action, in
 		sprintf(order + strlen(order), "%d 06 +%f %d 04 -%f ", me->id, speed * cos(cam->ry / 57.3), me->id, speed * sin(cam->ry / 57.3));
 	if (button == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
 		sprintf(order + strlen(order), "%d 06 +%f %d 04 +%f ", me->id, speed * sin(cam->ry / 57.3), me->id, speed * cos(cam->ry / 57.3));
-	sprintf(order + strlen(order), "%d 05 %f %d 08 %f %d 09 %f ", me->id, land[(int)cam->cameraPos.z][(int)cam->cameraPos.x] + 5, me->id, cam->ry, me->id, cam->rz);
 }
 
 
