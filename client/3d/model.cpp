@@ -64,7 +64,27 @@ std::vector<float> load_obj_data(char *path, int size)
                 for (int i = 0; line[i] != 0; i++)
                     if (line[i] == '/')
                         nslash++;
-                if (nslash == 6)
+				if (nslash == 3)
+				{
+					int tmp1, tmp2, tmp3, tmp4, tmp5, tmp6;
+					sscanf(line, "f %d/%d %d/%d %d/%d", &tmp1, &tmp2, &tmp3, &tmp4, &tmp5, &tmp6);
+					ret.push_back(v[(tmp1-1)*3]);
+                    ret.push_back(v[(tmp1-1)*3+1]);
+                    ret.push_back(v[(tmp1-1)*3+2]);
+                    ret.push_back(vt[(tmp2-1)*2]);
+                    ret.push_back(vt[(tmp2-1)*2+1]);
+                    ret.push_back(v[(tmp3-1)*3]);
+                    ret.push_back(v[(tmp3-1)*3+1]);
+                    ret.push_back(v[(tmp3-1)*3+2]);
+                    ret.push_back(vt[(tmp4-1)*2]);
+                    ret.push_back(vt[(tmp4-1)*2+1]);
+                    ret.push_back(v[(tmp5-1)*3]);
+                    ret.push_back(v[(tmp5-1)*3+1]);
+                    ret.push_back(v[(tmp5-1)*3+2]);
+                    ret.push_back(vt[(tmp6-1)*2]);
+                    ret.push_back(vt[(tmp6-1)*2+1]);
+				}
+                else if (nslash == 6)
                 {
                     int tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9;
                     sscanf(line, "f %d/%d/%d %d/%d/%d %d/%d/%d", &tmp1, &tmp2, &tmp3, &tmp4, &tmp5, &tmp6, &tmp7, &tmp8, &tmp9);

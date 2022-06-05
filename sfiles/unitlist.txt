@@ -1,5 +1,2 @@
-0 100 none none tree none 100 0 30 0 0 0
-1 100 none none tree none 120 0 30 0 0 0
-2 100 none none tree none 130 0 30 0 0 0
-3 100 thyma thyma tree none 200 200 200 0 0 90
-3 100 niko niko tree none 200 200 200 0 0 90
+3 100 thyma thyma man none 100 100 100 0 0 90
+2 100 niko niko man none 100 100 100 0 0 90

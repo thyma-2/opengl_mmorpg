@@ -2,32 +2,19 @@
 
 std::vector<struct unit*> unit_list;
 
-void free_unit(int id)
+int find_index(int id)
 {
-	if (unit_list[id] == NULL)
-		return;
-	if (unit_list[id]->id != -1)
-		free_object_tree(unit_list[id]->obj);
-	free(unit_list[id]);
-	unit_list[id] = NULL;
+	for (int i = 0; i < unit_list.size(); i++)
+		if (unit_list[i]->id == id)
+			return i;
+	return -1;
 }
 
-void insert_into_unitlist(struct unit *u)
+void free_unit(int id)
 {
-	if (u->id <= unit_list.size() - 1 && unit_list.size() > 0)
-	{
-		free_unit(u->id);
-		unit_list[u->id] = u;
-		return;
-	}
-	while (u->id > unit_list.size())
-	{
-	
-	struct unit *bullshit = (struct unit*)malloc(sizeof(struct unit));
-		bullshit->id = -1;
-		unit_list.push_back(bullshit);
-	}
-	unit_list.push_back(u);
+	for (int i = 0; i < unit_list.size(); i++)
+        if (unit_list[i]->id == id)
+			unit_list.erase(unit_list.begin() + i);
 }
 
 struct unit *init_unit_list(char *str, char *name)
@@ -43,7 +30,7 @@ struct unit *init_unit_list(char *str, char *name)
 		u->lastx = x;
 		u->lasty = y;
 		u->lastz = z;
-		insert_into_unitlist(u);
+		unit_list.push_back(u);
 		while (str[i] != '\n')
 		{
 			if (str[i] == 0)
@@ -57,14 +44,9 @@ struct unit *init_unit_list(char *str, char *name)
 		pathmodel[7] = 0;
 		strcat(pathmodel, u->utype);
 		strcat(pathmodel, ".obj");
-		int model_indice;
+		int model_indice = load_model_from_obj(pathmodel, 1);
 		if (strcmp(u->acount, name) == 0)
-		{
             to_ret = u;
-			model_indice = load_model_from_obj(pathmodel, 0);
-		}
-		else
-			model_indice = load_model_from_obj(pathmodel, 1);
 		u->obj = add_object(nullptr, model_indice, x, y, z, rx,ry,rz);
 	}
 	return to_ret;
@@ -76,10 +58,11 @@ void update_unit_list(char *str)
     while (str[i] != 0)
     {
 		int id = atoi(str + i);
-		unit_list[id]->lastx = unit_list[id]->obj->position[0];
-		unit_list[id]->lasty = unit_list[id]->obj->position[1];
-		unit_list[id]->lastz = unit_list[id]->obj->position[2];
-        sscanf(str + i, "%d %d %s %s %s %s %f %f %f %f %f %f", &unit_list[id]->id, &unit_list[id]->pv, unit_list[id]->acount, unit_list[id]->name, unit_list[id]->utype, unit_list[id]->bossname, &unit_list[id]->obj->position[0], &unit_list[id]->obj->position[1], &unit_list[id]->obj->position[2], &unit_list[id]->obj->rx, &unit_list[id]->obj->ry, &unit_list[id]->obj->rz);
+		int index = find_index(id);
+		unit_list[index]->lastx = unit_list[index]->obj->position[0];
+		unit_list[index]->lasty = unit_list[index]->obj->position[1];
+		unit_list[index]->lastz = unit_list[index]->obj->position[2];
+        sscanf(str + i, "%d %d %s %s %s %s %f %f %f %f %f %f", &unit_list[index]->id, &unit_list[index]->pv, unit_list[index]->acount, unit_list[index]->name, unit_list[index]->utype, unit_list[index]->bossname, &unit_list[index]->obj->position[0], &unit_list[index]->obj->position[1], &unit_list[index]->obj->position[2], &unit_list[index]->obj->rx, &unit_list[index]->obj->ry, &unit_list[index]->obj->rz);
         while (str[i] != '\n')
             i++;
         i++;
