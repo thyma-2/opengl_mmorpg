@@ -25,7 +25,7 @@ unsigned int load_texture(char *path)
 	return texture;
 }
 
-std::vector<float> load_obj_data(char *path, int size)
+std::vector<float> load_obj_data(char *path, float size)
 {
 	std::vector<float> v = {};
     std::vector<float> ret = {};
@@ -149,7 +149,7 @@ std::vector<float> load_obj_data(char *path, int size)
 }
 
 
-int load_model_from_obj(char *path, int size)
+int load_model_from_obj(char *path, float size)
 {
 	for (int i = 0; i < models.size(); i++)
 	{

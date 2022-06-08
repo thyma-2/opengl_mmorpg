@@ -44,7 +44,7 @@ struct unit *init_unit_list(char *str, char *name)
 		pathmodel[7] = 0;
 		strcat(pathmodel, u->utype);
 		strcat(pathmodel, ".obj");
-		int model_indice = load_model_from_obj(pathmodel, 1);
+		int model_indice = load_model_from_obj(pathmodel, 0.1);
 		if (strcmp(u->acount, name) == 0)
             to_ret = u;
 		u->obj = add_object(nullptr, model_indice, x, y, z, rx,ry,rz);

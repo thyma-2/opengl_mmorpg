@@ -13,6 +13,6 @@ struct model{
 	char *path;
 };
 
-int load_model_from_obj(char *path, int size);
+int load_model_from_obj(char *path, float size);
 unsigned int load_texture(char *path);
 void createArrayBuffer(const std::vector<float> &array, unsigned int &VBO);

@@ -39,7 +39,6 @@ int main(int argc, char **argv)
 		printf ("login failed\n");
 		return -3;
 	}
-	cam->cameraPos   = glm::vec3(0.0f, 0.f, 0.0f);
 	cam->cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 	cam->cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 	cam->fov   =  45.0f;
@@ -109,7 +108,6 @@ int main(int argc, char **argv)
 		glm::mat4 view = glm::lookAt(cam->cameraPos, cam->cameraPos + cam->cameraFront, cam->cameraUp);
 		model_shader->setMat4("view", view);
 		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		//objects[0].ry += 1.0f;
 		draw_objects(objects, model);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -123,7 +121,7 @@ int main(int argc, char **argv)
 		char *l = recv_file();
 		update_unit_list(l);
 		cam->cameraPos=me->obj->position;
-		cam->cameraPos[1] += 1;
+		cam->cameraPos[1] += 2;
 		free(l);
 
 		for (int i = 0; i < unit_list.size(); i++)
@@ -155,6 +153,7 @@ void key_input_callback(GLFWwindow* window, int button, int other,int action, in
 		sprintf(order + strlen(order), "%d 06 +%f %d 04 -%f ", me->id, speed * cos(cam->ry / 57.3), me->id, speed * sin(cam->ry / 57.3));
 	if (button == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
 		sprintf(order + strlen(order), "%d 06 +%f %d 04 +%f ", me->id, speed * sin(cam->ry / 57.3), me->id, speed * cos(cam->ry / 57.3));
+	sprintf(order + strlen(order), "%d 05 %f %d 08 %f ", me->id, land[(int)me->obj->position[2]][(int)me->obj->position[0]] + 0.1, me->id, me->obj->ry);
 }
 
 
@@ -202,8 +201,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	    cam->rz += yoffset;
 	}
 
-	
-
+	if (cam->ry > 359)
+		cam->ry -= 360;
+	if (cam->ry < 0)
+		cam->ry += 360;	
+	me->obj->ry = 360-cam->ry;
     // make sure that when pitch is out of bounds, screen doesn't get flipped
     if (cam->rz > 89.0f)
         cam->rz = 89.0f;

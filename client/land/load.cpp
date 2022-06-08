@@ -14,7 +14,7 @@ std::vector<std::vector<float>> csv_to_array(char *csv)
 	std::vector<float> tmp = {};
     while (csv[i] != 0)
     {
-        tmp.push_back(atoi(csv + i));
+        tmp.push_back(atof(csv + i));
         while (csv[i] != ',' and csv[i] != '\n')
         	i++;
         if (csv[i] == '\n')

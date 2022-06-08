@@ -10,4 +10,4 @@ s:
 	gcc -g server/main.c $(sfiles) -o serv
 
 l:
-	gcc land/generate_land.c -o land
+	gcc land/generate_land.c -o generate_land
